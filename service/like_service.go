@@ -22,7 +22,14 @@ type LikeService struct {
 	LikeMongoMapper like.IMongoMapper
 }
 
-func (service LikeService) DoLike(ctx context.Context, targetId string, targetType action.TargetType, userId string) (*action.DoLikeResp, error) {
+func NewLikeService() ILikeService {
+	mongoMapper := like.NewMongoMapper()
+	return &LikeService{
+		LikeMongoMapper: mongoMapper,
+	}
+}
+
+func (service *LikeService) DoLike(ctx context.Context, targetId string, targetType action.TargetType, userId string) (*action.DoLikeResp, error) {
 
 	// 判断是否点赞过，不存在和未点赞都为false
 	liked, err := service.LikeMongoMapper.IsLiked(ctx, targetId, targetType, userId)
@@ -45,7 +52,7 @@ func (service LikeService) DoLike(ctx context.Context, targetId string, targetTy
 	return &action.DoLikeResp{}, nil
 }
 
-func (service LikeService) CancelLike(ctx context.Context, targetId string, targetType action.TargetType, userId string) (*action.CancelLikeResp, error) {
+func (service *LikeService) CancelLike(ctx context.Context, targetId string, targetType action.TargetType, userId string) (*action.CancelLikeResp, error) {
 
 	// 判断是否点赞过，不存在和未点赞都为false
 	liked, err := service.LikeMongoMapper.IsLiked(ctx, targetId, targetType, userId)
@@ -68,7 +75,7 @@ func (service LikeService) CancelLike(ctx context.Context, targetId string, targ
 	return &action.CancelLikeResp{}, nil
 }
 
-func (service LikeService) GetLikedCount(ctx context.Context, targetId string, targetType action.TargetType) (*action.GetLikedCountResp, error) {
+func (service *LikeService) GetLikedCount(ctx context.Context, targetId string, targetType action.TargetType) (*action.GetLikedCountResp, error) {
 	count, err := service.LikeMongoMapper.CountLikes(ctx, targetId, targetType)
 
 	if err != nil {
@@ -78,7 +85,7 @@ func (service LikeService) GetLikedCount(ctx context.Context, targetId string, t
 	return &action.GetLikedCountResp{Count: count}, nil
 }
 
-func (service LikeService) GetLikedUsers(ctx context.Context, targetId string, targetType action.TargetType, options *basic.PaginationOptions) (*action.GetLikedUsersResp, error) {
+func (service *LikeService) GetLikedUsers(ctx context.Context, targetId string, targetType action.TargetType, options *basic.PaginationOptions) (*action.GetLikedUsersResp, error) {
 	data, total, err := service.LikeMongoMapper.GetLikedUsers(ctx, targetId, targetType, options)
 
 	if err != nil {
@@ -103,7 +110,7 @@ func (service LikeService) GetLikedUsers(ctx context.Context, targetId string, t
 	}, nil
 }
 
-func (service LikeService) GetUserLiked(ctx context.Context, targetType action.TargetType, userId string, options *basic.PaginationOptions) (*action.GetUserLikedResp, error) {
+func (service *LikeService) GetUserLiked(ctx context.Context, targetType action.TargetType, userId string, options *basic.PaginationOptions) (*action.GetUserLikedResp, error) {
 	data, total, err := service.LikeMongoMapper.GetUserLiked(ctx, targetType, userId, options)
 
 	if err != nil {
@@ -128,7 +135,7 @@ func (service LikeService) GetUserLiked(ctx context.Context, targetType action.T
 	}, nil
 }
 
-func (service LikeService) GetLiked(ctx context.Context, targetId string, targetType action.TargetType, userId string) (*action.GetLikedResp, error) {
+func (service *LikeService) GetLiked(ctx context.Context, targetId string, targetType action.TargetType, userId string) (*action.GetLikedResp, error) {
 	liked, err := service.LikeMongoMapper.IsLiked(ctx, targetId, targetType, userId)
 
 	if err != nil {

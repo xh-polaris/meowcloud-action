@@ -21,6 +21,13 @@ type ShareService struct {
 	ShareMongoMapper share.IMongoMapper
 }
 
+func NewShareService() *ShareService {
+	mongoMapper := share.NewMongoMapper()
+	return &ShareService{
+		ShareMongoMapper: mongoMapper,
+	}
+}
+
 func (service ShareService) DoShare(ctx context.Context, targetId string, targetType action.TargetType, userId string) (*action.DoShareResp, error) {
 
 	err := service.ShareMongoMapper.InsertOne(ctx, targetId, targetType, userId)

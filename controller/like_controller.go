@@ -20,6 +20,12 @@ type LikeController struct {
 	likeService service.ILikeService
 }
 
+func NewLikeController() *LikeController {
+	return &LikeController{
+		likeService: service.NewLikeService(),
+	}
+}
+
 func (controller *LikeController) DoLike(ctx context.Context, req *action.DoLikeReq) (*action.DoLikeResp, error) {
 	userMeta := req.User
 

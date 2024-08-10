@@ -17,7 +17,13 @@ type IFollowController interface {
 }
 
 type FollowController struct {
-	followService service.FollowService
+	followService service.IFollowService
+}
+
+func NewFollowController() *FollowController {
+	return &FollowController{
+		followService: service.NewFollowService(),
+	}
 }
 
 func (controller *FollowController) DoFollow(ctx context.Context, req *action.DoFollowReq) (*action.DoFollowResp, error) {
@@ -57,7 +63,7 @@ func (controller *FollowController) GetFollowedCount(ctx context.Context, req *a
 
 func (controller *FollowController) GetFollowedUsers(ctx context.Context, req *action.GetFollowedUsersReq) (*action.GetFollowedUsersResp, error) {
 
-	resp, err := controller.followService.GetFollowedUsers(ctx, req.TargetId, req.TargetType)
+	resp, err := controller.followService.GetFollowedUsers(ctx, req.TargetId, req.TargetType, req.PaginationOption)
 
 	return resp, err
 }
@@ -71,7 +77,7 @@ func (controller *FollowController) GetUserFollowed(ctx context.Context, req *ac
 		return nil, userErr
 	}
 
-	resp, err := controller.followService.GetUserFollowed(ctx, req.TargetType, userMeta.UserId)
+	resp, err := controller.followService.GetUserFollowed(ctx, req.TargetType, userMeta.UserId, req.PaginationOption)
 
 	return resp, err
 }

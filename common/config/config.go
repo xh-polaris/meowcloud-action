@@ -1,39 +1,26 @@
 package config
 
 import (
+	"github.com/zeromicro/go-zero/core/stores/cache"
 	"os"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
-	"github.com/zeromicro/go-zero/core/stores/cache"
-	"github.com/zeromicro/go-zero/core/stores/redis"
 )
 
-type ElasticsearchConf struct {
-	Addresses []string
-	Username  string
-	Password  string
-}
+var config *Config
 
 type Config struct {
 	service.ServiceConf
 	ListenOn string
+	Cache    *cache.CacheConf
 	Mongo    struct {
 		URL string
 		DB  string
 	}
-	Cache         cache.CacheConf
-	Elasticsearch ElasticsearchConf
-	Redis         *redis.RedisConf
-	GetFishTimes  int64
-	RocketMq      *struct {
-		URL       []string
-		Retry     int
-		GroupName string
-	}
 }
 
-func NewConfig() (*Config, error) {
+func Init() {
 	c := new(Config)
 	path := os.Getenv("CONFIG_PATH")
 	if path == "" {
@@ -41,11 +28,14 @@ func NewConfig() (*Config, error) {
 	}
 	err := conf.Load(path, c)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 	err = c.SetUp()
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
-	return c, nil
+}
+
+func Get() *Config {
+	return config
 }

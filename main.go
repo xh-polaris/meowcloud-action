@@ -1,6 +1,9 @@
 package main
 
 import (
+	"github.com/xh-polaris/meowchat-content/biz/infrastructure/util/log"
+	"meowcloud-action/common/config"
+	"meowcloud-action/controller"
 	"net"
 
 	"github.com/cloudwego/kitex/pkg/klog"
@@ -9,28 +12,26 @@ import (
 	"github.com/kitex-contrib/obs-opentelemetry/tracing"
 	"github.com/xh-polaris/gopkg/kitex/middleware"
 	logx "github.com/xh-polaris/gopkg/util/log"
-	content "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content/contentservice"
-
-	"github.com/xh-polaris/meowchat-content/biz/infrastructure/util/log"
-	"github.com/xh-polaris/meowchat-content/provider"
+	action "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowcloud/action/actionservice"
 )
 
 func main() {
+
+	config.Init()
+
 	klog.SetLogger(logx.NewKlogLogger())
-	s, err := provider.NewContentServerImpl()
+
+	addr, err := net.ResolveTCPAddr("tcp", config.Get().ListenOn)
+
 	if err != nil {
 		panic(err)
 	}
-	addr, err := net.ResolveTCPAddr("tcp", s.ListenOn)
-	if err != nil {
-		panic(err)
-	}
-	svr := content.NewServer(
-		s,
+	svr := action.NewServer(
+		controller.NewActionController(),
 		server.WithServiceAddr(addr),
 		server.WithSuite(tracing.NewServerSuite()),
-		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: s.Name}),
-		server.WithMiddleware(middleware.LogMiddleware(s.Name)),
+		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: config.Get().Name}),
+		server.WithMiddleware(middleware.LogMiddleware(config.Get().Name)),
 	)
 
 	err = svr.Run()

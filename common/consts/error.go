@@ -8,6 +8,7 @@ import (
 var UserNotExist = errors.New("用户不存在")
 var RepeatLike = errors.New("请勿重复点赞")
 var LikeNotExist = errors.New("点赞不存在")
+var FollowNotExist = errors.New("关注不存在")
 var RepeatFollow = errors.New("请勿重复关注")
 var TryAgain = errors.New("操作失败，请重试")
 

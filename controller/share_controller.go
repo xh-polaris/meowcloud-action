@@ -16,7 +16,13 @@ type IShareController interface {
 }
 
 type ShareController struct {
-	likeService service.ShareService
+	shareService service.IShareService
+}
+
+func NewShareController() *ShareController {
+	return &ShareController{
+		shareService: service.NewShareService(),
+	}
 }
 
 func (controller *ShareController) DoShare(ctx context.Context, req *action.DoShareReq) (*action.DoShareResp, error) {
@@ -28,21 +34,21 @@ func (controller *ShareController) DoShare(ctx context.Context, req *action.DoSh
 		return nil, userErr
 	}
 
-	resp, err := controller.likeService.DoShare(ctx, req.TargetId, req.TargetType, req.User.UserId)
+	resp, err := controller.shareService.DoShare(ctx, req.TargetId, req.TargetType, req.User.UserId)
 
 	return resp, err
 }
 
 func (controller *ShareController) GetSharedCount(ctx context.Context, req *action.GetSharedCountReq) (*action.GetSharedCountResp, error) {
 
-	resp, err := controller.likeService.GetSharedCount(ctx, req.TargetId, req.TargetType)
+	resp, err := controller.shareService.GetSharedCount(ctx, req.TargetId, req.TargetType)
 
 	return resp, err
 }
 
 func (controller *ShareController) GetSharedUsers(ctx context.Context, req *action.GetSharedUsersReq) (*action.GetSharedUsersResp, error) {
 
-	resp, err := controller.likeService.GetSharedUsers(ctx, req.TargetId, req.TargetType)
+	resp, err := controller.shareService.GetSharedUsers(ctx, req.TargetId, req.TargetType, req.PaginationOption)
 
 	return resp, err
 }
@@ -56,7 +62,7 @@ func (controller *ShareController) GetUserShared(ctx context.Context, req *actio
 		return nil, userErr
 	}
 
-	resp, err := controller.likeService.GetUserShared(ctx, req.TargetType, userMeta.UserId)
+	resp, err := controller.shareService.GetUserShared(ctx, req.TargetType, userMeta.UserId, req.PaginationOption)
 
 	return resp, err
 }
@@ -70,7 +76,7 @@ func (controller *ShareController) GetShared(ctx context.Context, req *action.Ge
 		return nil, userErr
 	}
 
-	resp, err := controller.likeService.GetShared(ctx, req.TargetId, req.TargetType, userMeta.UserId)
+	resp, err := controller.shareService.GetShared(ctx, req.TargetId, req.TargetType, userMeta.UserId)
 
 	return resp, err
 }

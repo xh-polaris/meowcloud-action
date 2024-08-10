@@ -22,6 +22,13 @@ type FollowService struct {
 	FollowMongoMapper follow.IMongoMapper
 }
 
+func NewFollowService() IFollowService {
+	mongoMapper := follow.NewMongoMapper()
+	return &FollowService{
+		FollowMongoMapper: mongoMapper,
+	}
+}
+
 func (service FollowService) DoFollow(ctx context.Context, targetId string, targetType action.TargetType, userId string) (*action.DoFollowResp, error) {
 
 	// 判断是否点赞过，不存在和未点赞都为false
