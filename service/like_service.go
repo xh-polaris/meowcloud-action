@@ -31,7 +31,7 @@ func NewLikeService() ILikeService {
 
 func (service *LikeService) DoLike(ctx context.Context, targetId string, targetType action.TargetType, userId string) (*action.DoLikeResp, error) {
 
-	// 判断是否点赞过，不存在和未点赞都为false
+	// 判断是否点赞过，不存在和未点赞都为true
 	liked, err := service.LikeMongoMapper.IsLiked(ctx, targetId, targetType, userId)
 
 	if err != nil {
@@ -39,7 +39,7 @@ func (service *LikeService) DoLike(ctx context.Context, targetId string, targetT
 	}
 
 	// 点赞过则抛出异常
-	if liked {
+	if !liked {
 		return nil, consts.RepeatLike
 	}
 
@@ -54,15 +54,15 @@ func (service *LikeService) DoLike(ctx context.Context, targetId string, targetT
 
 func (service *LikeService) CancelLike(ctx context.Context, targetId string, targetType action.TargetType, userId string) (*action.CancelLikeResp, error) {
 
-	// 判断是否点赞过，不存在和未点赞都为false
+	// 判断是否点赞过，不存在和未点赞都是true
 	liked, err := service.LikeMongoMapper.IsLiked(ctx, targetId, targetType, userId)
 
 	if err != nil {
 		return nil, err
 	}
 
-	// 未点赞过则抛出异常
-	if !liked {
+	// 点赞过则抛出异常
+	if liked {
 		return nil, consts.LikeNotExist
 	}
 

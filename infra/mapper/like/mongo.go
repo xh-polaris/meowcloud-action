@@ -3,6 +3,7 @@ package like
 import (
 	"context"
 	"errors"
+	"github.com/xh-polaris/gopkg/util/log"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowcloud/action"
 	"github.com/zeromicro/go-zero/core/stores/monc"
@@ -52,6 +53,7 @@ func (m *MongoMapper) InsertOne(ctx context.Context, targetId string, targetType
 	switch {
 	// 已经存在则修改isCancel状态
 	case err == nil:
+		log.Info("like已存在，改变isCancel")
 		like.IsCancel = false
 		_, err = m.conn.ReplaceOneNoCache(ctx, filter, like)
 	// 不存在则新建
@@ -108,7 +110,7 @@ func (m *MongoMapper) CancelLike(ctx context.Context, targetId string, targetTyp
 }
 
 func (m *MongoMapper) CountLikes(ctx context.Context, targetId string, targetType action.TargetType) (int64, error) {
-	filter := bson.M{"target_id": targetId, "target_type": targetType}
+	filter := bson.M{"target_id": targetId, "target_type": targetType, "is_cancel": false}
 
 	var count int64
 
@@ -127,7 +129,7 @@ func (m *MongoMapper) GetLikedUsers(ctx context.Context, targetId string, target
 
 	likes := make([]*Like, pageSize)
 
-	filter := bson.M{"target_id": targetId, "target_type": targetType}
+	filter := bson.M{"target_id": targetId, "target_type": targetType, "is_cancel": false}
 
 	err := m.conn.Find(ctx, &likes, filter, &options.FindOptions{
 		Limit: opts.Limit,
@@ -154,7 +156,7 @@ func (m *MongoMapper) GetUserLiked(ctx context.Context, targetType action.Target
 
 	likes := make([]*Like, pageSize)
 
-	filter := bson.M{"target_type": targetType, "user_id": userId}
+	filter := bson.M{"target_type": targetType, "user_id": userId, "is_cancel": false}
 
 	err := m.conn.Find(ctx, &likes, filter, &options.FindOptions{
 		Limit: opts.Limit,
@@ -177,7 +179,7 @@ func (m *MongoMapper) GetUserLiked(ctx context.Context, targetType action.Target
 }
 
 func (m *MongoMapper) CountLikesByUserId(ctx context.Context, targetType action.TargetType, userId string) (int64, error) {
-	filter := bson.M{"target_type": targetType, "user_id": userId}
+	filter := bson.M{"target_type": targetType, "user_id": userId, "is_cancel": false}
 
 	var count int64
 

@@ -9,7 +9,7 @@ import (
 type Share struct {
 	ID         primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
 	TargetId   string             `bson:"target_id,omitempty" json:"target_id"`
-	TargetType action.TargetType  `bson:"target_type,omitempty" json:"target_type"`
+	TargetType action.TargetType  `bson:"target_type" json:"target_type"`
 	UserId     string             `bson:"user_id,omitempty" json:"user_id"`
 	CreateAt   time.Time          `bson:"create_at,omitempty" json:"create_at,omitempty"`
 	UpdateAt   time.Time          `bson:"update_at,omitempty" json:"update_at,omitempty"`

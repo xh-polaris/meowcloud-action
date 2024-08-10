@@ -31,7 +31,7 @@ func NewFollowService() IFollowService {
 
 func (service FollowService) DoFollow(ctx context.Context, targetId string, targetType action.TargetType, userId string) (*action.DoFollowResp, error) {
 
-	// 判断是否点赞过，不存在和未点赞都为false
+	// 判断是否点赞过，不存在和未点赞都为true
 	followed, err := service.FollowMongoMapper.IsFollowed(ctx, targetId, targetType, userId)
 
 	if err != nil {
@@ -39,7 +39,7 @@ func (service FollowService) DoFollow(ctx context.Context, targetId string, targ
 	}
 
 	// 点赞过则抛出异常
-	if followed {
+	if !followed {
 		return nil, consts.RepeatFollow
 	}
 
@@ -54,7 +54,7 @@ func (service FollowService) DoFollow(ctx context.Context, targetId string, targ
 
 func (service FollowService) CancelFollow(ctx context.Context, targetId string, targetType action.TargetType, userId string) (*action.CancelFollowResp, error) {
 
-	// 判断是否点赞过，不存在和未点赞都为false
+	// 判断是否点赞过，不存在和未点赞都为true
 	followed, err := service.FollowMongoMapper.IsFollowed(ctx, targetId, targetType, userId)
 
 	if err != nil {
@@ -62,7 +62,7 @@ func (service FollowService) CancelFollow(ctx context.Context, targetId string, 
 	}
 
 	// 未点赞过则抛出异常
-	if !followed {
+	if followed {
 		return nil, consts.FollowNotExist
 	}
 

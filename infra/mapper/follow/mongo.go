@@ -108,7 +108,7 @@ func (m *MongoMapper) CancelFollow(ctx context.Context, targetId string, targetT
 }
 
 func (m *MongoMapper) CountFollows(ctx context.Context, targetId string, targetType action.TargetType) (int64, error) {
-	filter := bson.M{"target_id": targetId, "target_type": targetType}
+	filter := bson.M{"target_id": targetId, "target_type": targetType, "is_cancel": false}
 
 	var count int64
 
@@ -127,7 +127,7 @@ func (m *MongoMapper) GetFollowedUsers(ctx context.Context, targetId string, tar
 
 	follows := make([]*Follow, pageSize)
 
-	filter := bson.M{"target_id": targetId, "target_type": targetType}
+	filter := bson.M{"target_id": targetId, "target_type": targetType, "is_cancel": false}
 
 	err := m.conn.Find(ctx, &follows, filter, &options.FindOptions{
 		Limit: opts.Limit,
@@ -154,7 +154,7 @@ func (m *MongoMapper) GetUserFollowed(ctx context.Context, targetType action.Tar
 
 	follows := make([]*Follow, pageSize)
 
-	filter := bson.M{"target_type": targetType, "user_id": userId}
+	filter := bson.M{"target_type": targetType, "user_id": userId, "is_cancel": false}
 
 	err := m.conn.Find(ctx, &follows, filter, &options.FindOptions{
 		Limit: opts.Limit,
@@ -177,7 +177,7 @@ func (m *MongoMapper) GetUserFollowed(ctx context.Context, targetType action.Tar
 }
 
 func (m *MongoMapper) CountFollowsByUserId(ctx context.Context, targetType action.TargetType, userId string) (int64, error) {
-	filter := bson.M{"target_type": targetType, "user_id": userId}
+	filter := bson.M{"target_type": targetType, "user_id": userId, "is_cancel": false}
 
 	var count int64
 
