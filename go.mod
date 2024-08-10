@@ -2,6 +2,8 @@ module meowcloud-action
 
 go 1.18
 
+replace github.com/apache/thrift => github.com/apache/thrift v0.13.0
+
 require (
 	github.com/cloudwego/kitex v0.10.3
 	github.com/jinzhu/copier v0.3.5
