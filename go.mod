@@ -10,7 +10,7 @@ require (
 	github.com/kitex-contrib/obs-opentelemetry v0.2.7
 	github.com/xh-polaris/gopkg v0.0.0-20240424152329-9162fdb0eef9
 	github.com/xh-polaris/meowchat-content v1.2.34
-	github.com/xh-polaris/service-idl-gen-go v0.0.0-20240810073307-45f099602fe5
+	github.com/xh-polaris/service-idl-gen-go v0.0.0-20240810075048-b0ae4431f021
 	github.com/zeromicro/go-zero v1.7.0
 	go.mongodb.org/mongo-driver v1.16.1
 )
