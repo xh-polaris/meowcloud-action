@@ -267,8 +267,8 @@ github.com/xh-polaris/gopkg v0.0.0-20240424152329-9162fdb0eef9 h1:C77LIsAjkwP5B1
 github.com/xh-polaris/gopkg v0.0.0-20240424152329-9162fdb0eef9/go.mod h1:iuTX4c9raQCv45PeZ1s6Ixy1/CP37kSjOxHpkhiNQLc=
 github.com/xh-polaris/meowchat-content v1.2.34 h1:swLy7mgB+oNuxXVUUMZmxCZCJj8XScN45i9wdGTV6ao=
 github.com/xh-polaris/meowchat-content v1.2.34/go.mod h1:AfuJHC2oyhlCnAPfLjX8LJ0VEYcpHM5dBnqKcgUrbl0=
-github.com/xh-polaris/service-idl-gen-go v0.0.0-20240810075048-b0ae4431f021 h1:WEz+YlaUCoLpcZkCGbWngyn6psYS6mkzKARMh/WNYqk=
-github.com/xh-polaris/service-idl-gen-go v0.0.0-20240810075048-b0ae4431f021/go.mod h1:8nSGP4Kx51nsIzjDiYMio93AiV+FNPJWz+cD7HdurUI=
+github.com/xh-polaris/service-idl-gen-go v0.0.0-20240810084046-46b992cecc61 h1:USOUlq8Q52kL9+uLKdmIyOUri9gs6iPlaGaSMwuD7cw=
+github.com/xh-polaris/service-idl-gen-go v0.0.0-20240810084046-46b992cecc61/go.mod h1:8nSGP4Kx51nsIzjDiYMio93AiV+FNPJWz+cD7HdurUI=
 github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a h1:fZHgsYlfvtyqToslyjUt3VOPF4J7aK/3MPcK7xp3PDk=
 github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a/go.mod h1:ul22v+Nro/R083muKhosV54bj5niojjWZvU8xrevuH4=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
