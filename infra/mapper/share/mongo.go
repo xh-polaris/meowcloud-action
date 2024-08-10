@@ -34,7 +34,7 @@ type MongoMapper struct {
 
 func NewMongoMapper() IMongoMapper {
 	aConfig := config.Get()
-	conn := monc.MustNewModel(aConfig.Mongo.URL, aConfig.Mongo.DB, CollectionName, *aConfig.Cache)
+	conn := monc.MustNewModel(aConfig.Mongo.URL, aConfig.Mongo.DB, CollectionName, aConfig.Cache)
 	return &MongoMapper{
 		conn: conn,
 	}

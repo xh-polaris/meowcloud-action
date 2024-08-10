@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"os"
 
@@ -13,7 +14,7 @@ var config *Config
 type Config struct {
 	service.ServiceConf
 	ListenOn string
-	Cache    *cache.CacheConf
+	Cache    cache.CacheConf
 	Mongo    struct {
 		URL string
 		DB  string
@@ -21,21 +22,24 @@ type Config struct {
 }
 
 func Init() {
-	c := new(Config)
+	config = new(Config)
 	path := os.Getenv("CONFIG_PATH")
 	if path == "" {
 		path = "etc/config.yaml"
 	}
-	err := conf.Load(path, c)
+	err := conf.Load(path, config)
 	if err != nil {
 		panic(err)
 	}
-	err = c.SetUp()
+	err = config.SetUp()
 	if err != nil {
 		panic(err)
 	}
 }
 
 func Get() *Config {
+	if config == nil {
+		fmt.Println("config is nil")
+	}
 	return config
 }
