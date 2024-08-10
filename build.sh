@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-RUN_NAME="meowchat.collection"
+RUN_NAME="meowcloud.collection"
 
 mkdir -p output/bin
 cp script/* output/
